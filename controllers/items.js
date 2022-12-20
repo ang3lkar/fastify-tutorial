@@ -31,9 +31,20 @@ const deleteItem = (req, reply) => {
   reply.send({message: `Item ${id} has been removed`});
 }
 
+const updateItem = (req, reply) => {
+  const {id} = req.params;
+  const {name} = req.body;
+
+  items = items.map((item) => item.id === id ? {id, name} : item);
+  const item = items.find((item) => item.id === id);
+
+  reply.send(item);
+}
+
 module.exports = {
   getItems,
   getItem,
   addItem,
-  deleteItem
+  deleteItem,
+  updateItem
 }
