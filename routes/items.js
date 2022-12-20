@@ -1,8 +1,4 @@
-const items = require('../Items')
-
-function getItems() {
-
-}
+const {getItems, getItem} = require('../controllers/items');
 
 // Item schema
 const Item = {
@@ -23,19 +19,21 @@ const getItemsOpts = {
             },
         },
     },
-    handler: function(req, reply) {
-        reply.send(items)
-    } 
+    handler: getItems
+}
+
+const getItemOps = {
+    schema: {
+        response: {
+            200: Item
+        }
+    },
+    handler: getItem
 }
 
 function itemRoutes(fastify, options, done) {
-    fastify.get('/items', getItemsOpts) // uses a handler method defined in getItemsOpts
-
-    fastify.get('/items/:id', (req, reply) => {
-        const { id } = req.params
-        const item = items.find((item) => item.id === id)
-        reply.send(item)
-    })
+    fastify.get('/items', getItemsOpts);
+    fastify.get('/items/:id', getItemOps);
 
     done()
 }
